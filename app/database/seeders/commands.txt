@@ -1,0 +1,10 @@
+Para crear un proyecton de sequelize vacio se usa -> npx sequelize-cli init
+
+Para crear un seed -> npx sequelize-cli seed:generate --name demo-user
+
+Para correr un seed -> npx sequelize-cli db:seed:all
+
+Para deshacer un seed 
+    *Para deshacer el seed mas reciente: npx sequelize-cli db:seed:undo
+    *Para deshacer un seed en especifico: npx sequelize-cli db:seed:undo --seed name-of-seed-as-in-data
+    *Para deshacer todos los seeds: npx sequelize-cli db:seed:undo:all

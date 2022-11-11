@@ -4,40 +4,11 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model { };
 
   User.init({
-    //Tipo de documento
-    typeDoc: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isAlpha: {
-          msg: "EL campo unicamente puede ser de tipo numerico"
-        },
-        notNull: {
-          msg: "El campo tipo documento no puede ser nulo"
-        }
-      }
-    },
-    //Numero del documento
-    document: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isAlpha: {
-          msg: "EL campo unicamente puede ser de tipo numerico"
-        },
-        notNull: {
-          msg: "El campo document no puede ser nulo"
-        }
-      }
-    },
     //Primer nombre del usuario
     name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlpha: {
-          msg: "El campo unicamente puede ser de tipo texto"
-        },
         notNull: {
           msg: "El campo nombre no puede ser nulo"
         }
@@ -46,24 +17,14 @@ module.exports = (sequelize, DataTypes) => {
     //Segundo nombre del usuario
     secondaryName: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isAlpha: {
-          msg: "El campo unicamente puede ser de tipo texto"
-        },
-        notNull: {
-          msg: "El campo nombre no puede ser nulo"
-        }
-      }
+      allowNull: true,
+      defaultValue:'',
     },
     //Primer apellido del usuario
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlpha: {
-          msg: "El campo apellido unicamente puede ser de tipo texto",
-        },
         notNull: {
           msg: "El campo apellido no puede ser nulo"
         }
@@ -74,11 +35,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlpha: {
-          msg: "El campo apellido unicamente puede ser de tipo texto"
-        },
         notNull: {
-          msg: "El campo apellido no puede ser nulo"
+          msg: "El apellido del usuario no puede ser nulo"
         }
       }
     },
@@ -87,36 +45,26 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isEmail: {
-          msg: "El campo debe ser un correo valido"
-        },
         notNull: {
-          msg: "El correo no puede ser nulo"
+          msg: "El correo no puede estar vacio"
         }
       }
     },
     //Contraseña de usuario
-    pasword: {
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
-          msg: "El campo no puede ser nulo"
+          msg: "La contraseña no puede estar vacia"
         }
       }
     },
     //Numero de celular
     phoneNumber: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "El campo no puede ser nulo"
-        },
-        isNumeric: {
-          msg: "El campo unicamente puede ser de tipo numerico"
-        }
-      }
+      allowNull: true,
+      defaultValue: '',
     },
     //Puntaje promedio
     averageScore: {
@@ -125,7 +73,30 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 0,
       validate: {
         notNull: {
-          msg: "El campo no puede ser nulo"
+          msg: "El puntaje del usuario no puede ser nulo"
+        },
+        isNumeric: "El puntaje del usuario solo puede ser de tipo numerico"
+      }
+    },
+    //Estado del usuario(Elimminado o vigente)
+    state: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+      validate: {
+        notNull: {
+          msg: "El estado del usuario no puede ser nulo"
+        }
+      }
+    },
+    //Verificacion de cuenta
+    verified: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      validate: {
+        notNull:{
+          msg: "La verificacion de cuenta no puede estar nula"
         }
       }
     }
