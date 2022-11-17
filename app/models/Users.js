@@ -4,6 +4,11 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model { };
 
   User.init({
+    id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      primaryKey: true
+    },
     //Primer nombre del usuario
     name: {
       type: DataTypes.STRING,
@@ -18,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     secondaryName: {
       type: DataTypes.STRING,
       allowNull: true,
-      defaultValue:'',
+      defaultValue: '',
     },
     //Primer apellido del usuario
     lastName: {
@@ -82,24 +87,24 @@ module.exports = (sequelize, DataTypes) => {
     state: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: true,
+      defaultValue: false,
       validate: {
         notNull: {
           msg: "El estado del usuario no puede ser nulo"
         }
       }
     },
-    //Verificacion de cuenta
-    verified: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-      validate: {
-        notNull:{
-          msg: "La verificacion de cuenta no puede estar nula"
-        }
-      }
-    }
+    // //Verificacion de cuenta
+    // verified: {
+    //   type: DataTypes.BOOLEAN,
+    //   allowNull: false,
+    //   defaultValue: false,
+    //   validate: {
+    //     notNull: {
+    //       msg: "La verificacion de cuenta no puede estar nula"
+    //     }
+    //   }
+    // }
   }, {
     sequelize,
     modelName: 'User',
@@ -109,7 +114,7 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = (models) => {
     User.hasMany(models.Post, { as: 'publicaciones', foreignKey: 'autor_id' })
     User.hasOne(models.Origin, { as: 'origin', foreignKey: 'user_id' });
-    User.hasOne(models.Recolector, { as: 'recoleccion', foreignKey: 'recolector_id' })
+    User.hasOne(models.Recolector, { as: 'recoleccion', foreignKey: 'user_id', keyType: String })
   }
 
   return User;

@@ -1,3 +1,4 @@
+const { model } = require('mongoose');
 const nodemailer = require('nodemailer');
 
 const mail = {
@@ -33,8 +34,21 @@ const sendEmail = async (email, subject, html) => {
     }
 };
 
-const getTemplate = () => {
+const getTemplate = (name, token) => {
     return `
-        
+    <div id="email___content">
+    <img src='https://i.imgur.com/eboNR82.png' alt=''>
+    <h2>Hola ${name}</h2>
+    <p>Para confirmar tu cuenta, ingresa al siguiente enlace</p>
+    <a
+        href='http://localhost:4000/recyclapp/verify/${token}'
+        target='_blank'
+    >Confirmar Cuenta</a>
+    </div>
     `
+}
+
+module.exports = {
+    sendEmail, 
+    getTemplate
 }
