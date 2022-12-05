@@ -2,8 +2,8 @@ const { model } = require('mongoose');
 const nodemailer = require('nodemailer');
 
 const mail = {
-    user: 'recyclappdevelopment@gmail.com',
-    password: 'omdtytsdrqsvjsfc'
+    user: 'develop.recyclapp@gmail.com',
+    password: 'zxbezxpwveuxvfzm'
 };
 
 let transporter = nodemailer.createTransport({
@@ -34,16 +34,16 @@ const sendEmail = async (email, subject, html) => {
     }
 };
 
-const getTemplate = (name, token) => {
+const getTemplate = (name, token, message, link, linkMessage) => {
     return `
     <div id="email___content">
-    <img src='https://i.imgur.com/eboNR82.png' alt=''>
+    <img src="https://i.imgur.com/eboNR82.png" alt=''>
     <h2>Hola ${name}</h2>
-    <p>Para confirmar tu cuenta, ingresa al siguiente enlace</p>
+    <p>${message}</p>
     <a
-        href='http://localhost:4000/recyclapp/verify/${token}'
-        target='_blank'
-    >Confirmar Cuenta</a>
+        href="${link}${token}"
+        target="_blank"
+    >${linkMessage}</a>
     </div>
     `
 }
@@ -51,4 +51,4 @@ const getTemplate = (name, token) => {
 module.exports = {
     sendEmail, 
     getTemplate
-}
+} 

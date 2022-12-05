@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/services', (req, res) =>{
-    res.send('Estas son las rutas de los servicios')
-})
+const {createService} = require('../../controllers/services.controller');
+
+router.post('/services', createService)
 
 module.exports = router;

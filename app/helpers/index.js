@@ -68,4 +68,5 @@ module.exports = {
 
     return password;
   },
+  generateRandomNumber
 }

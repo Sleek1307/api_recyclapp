@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   Post.associate = (models) => {
-    Post.hasMany(models.Step, { as: 'post_anexo', foreignKey: 'post_id' })
+    Post.hasMany(models.Step, { as: 'post_anexo', foreignKey: 'postId' })
     Post.belongsTo(models.User, { as: 'autor' })
     Post.belongsToMany(models.User, { through: 'image_post', timestamps: false })
     Post.belongsToMany(models.Tag, {through: 'tag_post', timestamps: false})

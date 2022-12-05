@@ -94,17 +94,11 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    // //Verificacion de cuenta
-    // verified: {
-    //   type: DataTypes.BOOLEAN,
-    //   allowNull: false,
-    //   defaultValue: false,
-    //   validate: {
-    //     notNull: {
-    //       msg: "La verificacion de cuenta no puede estar nula"
-    //     }
-    //   }
-    // }
+    //token de restauracion de contraseña
+    restoreToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    }
   }, {
     sequelize,
     modelName: 'User',
@@ -112,9 +106,11 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   User.associate = (models) => {
-    User.hasMany(models.Post, { as: 'publicaciones', foreignKey: 'autor_id' })
-    User.hasOne(models.Origin, { as: 'origin', foreignKey: 'user_id' });
-    User.hasOne(models.Recolector, { as: 'recoleccion', foreignKey: 'user_id', keyType: String })
+    User.hasOne(models.Address, { as: 'address', foreignKey: 'userId' })
+    User.hasMany(models.Post, { as: 'publicaciones', foreignKey: 'autorId' })
+    User.belongsTo(models.Role, { as: 'rol', foreignKey: 'roleId' })
+    User.hasMany(models.Service, { as: 'origin', foreignKey: 'originId', keyType: DataTypes.STRING });
+    User.hasMany(models.Service, { as: 'recolector', foreignKey: 'recolectorId', keyType: DataTypes.STRING })
   }
 
   return User;

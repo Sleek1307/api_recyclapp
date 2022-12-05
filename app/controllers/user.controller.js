@@ -1,21 +1,30 @@
 const bcrypt = require('bcrypt')
 
-const { User, Recolector } = require('../database/db');
+const { User, Recolector, Address, Role } = require('../database/db.js');
 const authConfig = require('../../config/auth.js');
 const { generateRandomPassword } = require('../helpers/index');
-const {v4: uuid} = require('uuid');
+const { v4: uuid } = require('uuid');
 
 const getAllUsers = async (req, res) => {
-
   try {
     const users = await User.findAll({
       where: {
         state: true
-      }
+      },
+      include: [
+        {
+          model: Address,
+          as: 'address'
+        },
+        {
+          model: Role,
+          as: 'rol'
+        }],
     });
 
     res.status(200).send({ status: 'OK', data: users })
   } catch (error) {
+    console.log(error);
     res.status(400).send({ status: 'FAILED', error: error })
   }
 }
@@ -70,6 +79,37 @@ const updateUser = async (req, res) => {
   }
 }
 
+const updatePassword = async (req, res) => {
+
+  const { password, newPassword, id } = req.body;
+  //const { email, id } = req.user;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        id: id
+      }
+    });
+
+    if (bcrypt.compareSync(password, user.password)) {
+      await User.update({
+        password: newPassword
+      }, {
+        where: {
+          id: id
+        }
+      })
+
+      res.status(200).json({ status: 'OK', success: true, data: 'Contraseña actualizada con exito' });
+    } else {
+      res.status(400).json({ status: 'FAILED', success: false, error: 'Contraseña incorrecta' });
+    }
+  } catch (err) {
+    res.status(400).json({ status: 'FAILED', success: false, error: err });
+  }
+
+};
+
 const createUser = async (req, res) => {
   const { data } = req.body;
   const password = generateRandomPassword();
@@ -91,10 +131,6 @@ const createUser = async (req, res) => {
       res.status(400).send({ status: 'FAILED', error: 'El usuario ya existe' })
     } else {
 
-      console.log('Hola mundo');
-
-      console.log(newUser);
-
       const [newRecolector, recolector] = await Recolector.findOrCreate({
         where: {
           user_id: newUser.dataValues.id
@@ -102,8 +138,6 @@ const createUser = async (req, res) => {
           user_id: newUser.dataValues.id
         }
       })
-
-      console.log(newRecolector);
 
       if (!recolector) {
         res.status(400).send({ status: 'FAILED', error: 'El recolector ya existe' })
@@ -154,6 +188,4 @@ const deleteUser = async (req, res) => {
   };
 }
 
-
-
-module.exports = { getAllUsers, getOneUser, updateUser, createUser, deleteUser }
+module.exports = { getAllUsers, getOneUser, updateUser, updatePassword, createUser, deleteUser }

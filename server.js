@@ -6,6 +6,7 @@ const usersRoutes = require('./app/v1/routes/use.routes');
 const serviceRoutes = require('./app/v1/routes/services.routes');
 const postRoutes = require('./app/v1/routes/post.routes');
 const authRouter = require('./app/v1/routes/auth.routes');
+const addressRouter =  require('./app/v1/routes/address.routes');
 
 //Settings
 const PORT = process.env.PORT || 4000
@@ -20,6 +21,7 @@ app.use('/recyclapp', usersRoutes);
 app.use('/recyclapp', serviceRoutes);
 app.use('/recyclapp', postRoutes);
 app.use('/recyclapp', authRouter);
+app.use('/recyclapp', addressRouter);
 
 // app.use(serviceRouter);
 

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     class Address extends Model { };
 
     Address.init({
-        street: {
+        road: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
@@ -29,9 +29,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notNull: "El campo cas no puede estar vacio"
+                notNull: "El campo numero de casa no puede estar vacio"
             },
             defaultValue: ""
+        },
+        coordinates: {
+            type: DataTypes.GEOMETRY('POINT'),
+            allowNull: true,
         },
         note: {
             type: DataTypes.STRING,
@@ -40,7 +44,8 @@ module.exports = (sequelize, DataTypes) => {
                 notNull: {
                     msg: "El campo anotacion no puede ser nulo"
                 }
-            }
+            },
+            defaultValue: ""
         }
     }, {
         sequelize,
@@ -49,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     Address.associate = (models) => {
-        Address.belongsTo(models.Origin, { as: 'domicilio' })
+        Address.belongsTo(models.User, { as: 'address', foreignKey: 'userId'})
     }
 
     return Address;
