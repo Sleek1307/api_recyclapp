@@ -1,10 +1,7 @@
 const { model } = require("mongoose");
 const nodemailer = require("nodemailer");
 
-const mail = {
-  user: "develop.recyclapp@gmail.com",
-  password: "myhclrpaubptskkf",
-};
+const mail = {};
 
 let transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
