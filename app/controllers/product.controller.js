@@ -28,7 +28,7 @@ const getCategories = async (req, res) => {
 
 const getCategory = async (req, res) => {
 
-  const { id } = req.header;
+  const { id } = req.params;
 
   try {
     const category = await Category.findByPk(id);
@@ -85,9 +85,16 @@ const createProduct = async (req, res) => {
 }
 
 const getProducts = async (req, res) => {
-
   try {
-    const products = await Product.findAll();
+    const products = await Product.findAll({
+      include: {
+        model: Category,
+        as: 'categoria'
+      }
+    });
+
+    console.log(products);
+
     res.status(200).json({ status: 'OK', success: true, data: products })
   } catch (err) {
     res.status(400).json({ status: 'FAILED', success: false, error: err })
@@ -96,13 +103,13 @@ const getProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
 
-  const { id } = req.header;
+  const { id } = req.params;
 
   try {
     const product = await Product.findByPk(id);
 
     if (!product) {
-      return res.status(404).json({ status: 'NOT FOUND', success: false, error: 'La categoria que solicitaste no existe' })
+      return res.status(404).json({ status: 'NOT FOUND', success: false, error: 'El producto que solicitaste no existe' })
     }
 
     return res.status(201).json({ status: 'OK', success: true, data: product })

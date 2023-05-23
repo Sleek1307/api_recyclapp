@@ -1,28 +1,25 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+const authConfig = require("../config/auth.js");
 
 const getToken = (payload) => {
-  return jwt.sign(
-    { data: payload },
-    'mySecretPhrase',
-    { expiresIn: '24h' }
-  )
-}
+  return jwt.sign(payload, authConfig.secret, { expiresIn: "24h" });
+};
 
 const getTokenData = (token) => {
   let data = null;
 
-  jwt.verify(token, 'mySecretPhrase', (err, decoded) => {
+  jwt.verify(token, authConfig.secret, (err, decoded) => {
     if (err) {
-      data = { error: err }
+      data = { error: err };
     } else {
-      data = decoded
+      data = decoded;
     }
-  })
+  });
 
   return data;
-}
+};
 
 module.exports = {
   getToken,
-  getTokenData
+  getTokenData,
 };

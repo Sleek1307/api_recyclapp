@@ -30,8 +30,8 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     Product.associate = (models) => {
-        Product.belongsToMany(models.Service, {through: 'service_product'})
-        Product.belongsTo(models.Category, {as: 'categoria', foreignKey: 'categoryId'})
+        Product.belongsToMany(models.Service, { through: models.ServiceProducts })
+        Product.belongsTo(models.Category, { as: 'categoria', foreignKey: 'categoryId' })
     }
 
     return Product;

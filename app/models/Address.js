@@ -1,61 +1,64 @@
-const sequelize = require('sequelize');
-const { Model, DataTypes } = require('sequelize');
+const sequelize = require("sequelize");
+const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-    class Address extends Model { };
+  class Address extends Model {}
 
-    Address.init({
-        road: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: {
-                    msg: "El campo calle no puede estar nulo"
-                }
-            },
-            defaultValue: ""
+  Address.init(
+    {
+      road: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "El campo calle no puede estar nulo",
+          },
         },
-        streetNumber: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: {
-                    msg: "El campo numero de carrera no puede estar nulo"
-                }
-            },
-            defaultValue: ""
+        defaultValue: "",
+      },
+      streetNumber: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "El campo numero de carrera no puede estar nulo",
+          },
         },
-        houseNumber: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: "El campo numero de casa no puede estar vacio"
-            },
-            defaultValue: ""
+        defaultValue: "",
+      },
+      houseNumber: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: "El campo numero de casa no puede estar vacio",
         },
-        coordinates: {
-            type: DataTypes.GEOMETRY('POINT'),
-            allowNull: true,
+        defaultValue: "",
+      },
+      coordinates: {
+        type: DataTypes.GEOMETRY("POINT"),
+        allowNull: true,
+      },
+      note: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "El campo anotacion no puede ser nulo",
+          },
         },
-        note: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: {
-                    msg: "El campo anotacion no puede ser nulo"
-                }
-            },
-            defaultValue: ""
-        }
-    }, {
-        sequelize,
-        timestamps: false,
-        underscored: true
-    })
-
-    Address.associate = (models) => {
-        Address.belongsTo(models.User, { as: 'address', foreignKey: 'userId'})
+        defaultValue: "",
+      },
+    },
+    {
+      sequelize,
+      timestamps: false,
+      underscored: true,
     }
+  );
 
-    return Address;
-}
+  Address.associate = (models) => {
+    Address.hasOne(models.User, { as: "address", foreignKey: "address_id" });
+  };
+
+  return Address;
+};

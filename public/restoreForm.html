@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Este es el formulario para restaurar la contraseña</h1>
+
+  <input id="password" type="password" placeholder="Nueva contraseña">
+  <input id="confirmPassword" type="password" placeholder="Confirmar contraseña">
+  <button id="sendForm">Enviar</button>
+</body>
+<script>
+  const password = document.getElementById("password");
+  const confirmPassword = document.getElementById("confirmPassword");
+  const sendForm = document.getElementById("sendForm");
+
+  sendForm.addEventListener('click', () => {
+    if (password.value !== "")
+      if (confirmPassword.value === password.value) {
+        console.log(password.value)
+        fetch(`http://localhost:4000/recyclapp/auth/restore`, {
+          method: "PUT",
+          headers: {
+            'Content-Type': 'application/json'
+
+          },
+          body: JSON.stringify({
+            token: window.location.pathname.split('/')[4],
+            password: password.value
+          })
+        }).then((res) => res.json()).then(data => console.log(data))
+      }
+  }
+  )
+</script>
+
+</html>
